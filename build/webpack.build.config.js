@@ -1,66 +1,61 @@
 var webpack = require("webpack");
-var path = require('path')
+var path = require("path");
 var version = require("./../package.json").version;
-var banner = "/**\n" + " * vuetable-2 v" + version + "\n" + " * https://github.com/ratiw/vuetable-2\n" + " * Released under the MIT License.\n" + " */\n";
-var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var StatsPlugin = require("stats-webpack-plugin");
+var banner =
+  "/**\n" +
+  " * vuetable-2 v" +
+  version +
+  "\n" +
+  " * https://github.com/ratiw/vuetable-2\n" +
+  " * Released under the MIT License.\n" +
+  " */\n";
+var MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-var utils = require('./utils')
-var merge = require('webpack-merge')
-var baseWebpackConfig = require('./webpack.base.conf')
+var utils = require("./utils");
+var { merge } = require("webpack-merge");
+var baseWebpackConfig = require("./webpack.base.conf");
 
 var cssFileName = "vuetable-2.css";
 var jsFileName = "vuetable-2.js";
 
-if(process.env.MINIFY && process.env.MINIFY === "false"){
-  jsFileName = "vuetable-2-full.js"
+if (process.env.MINIFY && process.env.MINIFY === "false") {
+  jsFileName = "vuetable-2-full.js";
 }
-var minifyPlugins = [
-  new webpack.LoaderOptionsPlugin({
-    minimize: true,
-    debug: false
-  }),
-  new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: false
-    },
-    sourceMap:true,
-    comments: false,
-    beautify: false
-  }),
-];
 
 var webpackConfig = merge(baseWebpackConfig, {
+  mode: process.env.MINIFY === "true" ? "production" : "none",
   module: {
-    rules: utils.styleLoaders({sourceMap: true,extract: true})
+    rules: utils.styleLoaders({ sourceMap: true, extract: true }),
   },
-  entry: path.join(__dirname, '..', "src/index.js"),
+  entry: path.join(__dirname, "..", "src/index.js"),
   output: {
-    path: path.join(__dirname, '..', "dist"),
+    path: path.join(__dirname, "..", "dist"),
     filename: jsFileName,
     library: "Vuetable",
-    libraryTarget: "umd"
+    libraryTarget: "umd",
+  },
+  optimization: {
+    minimize: process.env.MINIFY === "true",
   },
   plugins: [
     new webpack.DefinePlugin({
       "process.env": {
-        NODE_ENV: '"production"'
+        NODE_ENV: '"production"',
       },
-      VERSION: JSON.stringify(require("../package.json").version)
+      VERSION: JSON.stringify(require("../package.json").version),
+      __VUE_OPTIONS_API__: "true",
+      __VUE_PROD_DEVTOOLS__: "false",
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: "false",
     }),
     new webpack.BannerPlugin({
       banner: banner,
-      raw: true
+      raw: true,
     }),
-    new ExtractTextPlugin({filename: cssFileName, allChunks: true}),
-    new StatsPlugin('stats.json')
+    new MiniCssExtractPlugin({ filename: cssFileName }),
   ],
   resolve: {
-    aliasFields: ["browser"]
-  }
+    aliasFields: ["browser"],
+  },
 });
 
-if(process.env.MINIFY && process.env.MINIFY === "true"){
-  webpackConfig.plugins = webpackConfig.plugins.concat(minifyPlugins);
-}
 module.exports = webpackConfig;

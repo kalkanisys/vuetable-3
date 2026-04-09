@@ -1,5 +1,6 @@
 <script>
 export default {
+  emits: ['vuetable-pagination:change-page'],
   props: {
     css: {
       type: Object,

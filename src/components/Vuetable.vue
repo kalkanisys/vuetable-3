@@ -4,11 +4,10 @@
     <table :class="['vuetable', css.tableClass, css.tableHeaderClass]">
     <thead>
       <tr>
-        <template v-for="(field, fieldIndex) in tableFields">
+        <template v-for="(field, fieldIndex) in tableFields" :key="fieldIndex">
           <template v-if="field.visible">
             <template v-if="isSpecialField(field.name)">
               <th v-if="extractName(field.name) == '__checkbox'"
-                :key="fieldIndex"
                 :style="{width: field.width}"
                 :class="['vuetable-th-checkbox-'+trackBy, field.titleClass]"
               >
@@ -16,33 +15,28 @@
                   :checked="checkCheckboxesState(field.name)">
               </th>
               <th v-if="extractName(field.name) == '__component'"
-                :key="fieldIndex"
                 :style="{width: field.width}"
                 :class="['vuetable-th-component-'+trackBy, field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
                 v-html="renderTitle(field)"
                 @click="orderBy(field, $event)"
               ></th>
               <th v-if="extractName(field.name) == '__slot'"
-                :key="fieldIndex"
                 :style="{width: field.width}"
                 :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
                 v-html="renderTitle(field)"
                 @click="orderBy(field, $event)"
               ></th>
               <th v-if="extractName(field.name) == '__sequence'"
-                :key="fieldIndex"
                 :style="{width: field.width}"
                 :class="['vuetable-th-sequence', field.titleClass || '']" v-html="renderTitle(field)">
               </th>
               <th v-if="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component', '__slot'])"
-                :key="fieldIndex"
                 :style="{width: field.width}"
                 :class="['vuetable-th-'+field.name, field.titleClass || '']" v-html="renderTitle(field)">
               </th>
             </template>
             <template v-else>
               <th @click="orderBy(field, $event)"
-                :key="fieldIndex"
                 :id="'_' + field.name"
                 :style="{width: field.width}"
                 :class="['vuetable-th-'+field.name, field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
@@ -59,10 +53,9 @@
   <div class="vuetable-body-wrapper" :style="{height: tableHeight}">
     <table :class="['vuetable', css.tableClass, css.tableBodyClass]">
       <colgroup>
-        <template v-for="(field, fieldIndex) in tableFields">
+        <template v-for="(field, fieldIndex) in tableFields" :key="fieldIndex">
           <template v-if="field.visible">
             <col
-              :key="fieldIndex"
               :id="'_col_' + field.name"
               :style="{width: field.width}"
               :class="['vuetable-th-'+field.name, field.titleClass]"
@@ -71,7 +64,7 @@
         </template>
       </colgroup>
       <tbody v-cloak class="vuetable-body">
-        <template v-for="(item, itemIndex) in tableData">
+        <template v-for="(item, itemIndex) in tableData" :key="itemIndex">
           <tr
             :item-index="itemIndex"
             :render="onRowChanged(item)"
@@ -79,21 +72,18 @@
             @click="onRowClicked(item, $event)"
             @dblclick="onRowDoubleClicked(item, $event)"
           >
-            <template v-for="(field, fieldIndex) in tableFields">
+            <template v-for="(field, fieldIndex) in tableFields" :key="fieldIndex">
               <template v-if="field.visible">
                 <template v-if="isSpecialField(field.name)">
                   <td v-if="extractName(field.name) == '__sequence'"
-                    :key="fieldIndex"
                     :class="['vuetable-sequence', field.dataClass]"
                     v-html="renderSequence(itemIndex)">
                   </td>
                   <td v-if="extractName(field.name) == '__handle'"
-                    :key="fieldIndex"
                     :class="['vuetable-handle', field.dataClass]"
                     v-html="renderIconTag(['handle-icon', css.handleIcon])"
                   ></td>
                   <td v-if="extractName(field.name) == '__checkbox'"
-                    :key="fieldIndex"
                     :class="['vuetable-checkboxes', field.dataClass]"
                   >
                     <input type="checkbox"
@@ -101,7 +91,6 @@
                       :checked="rowSelected(item, field.name)">
                   </td>
                   <td v-if="extractName(field.name) === '__component'"
-                    :key="fieldIndex"
                     :class="['vuetable-component', field.dataClass]"
                   >
                     <component :is="extractArgs(field.name)"
@@ -109,7 +98,6 @@
                     ></component>
                   </td>
                   <td v-if="extractName(field.name) === '__slot'"
-                    :key="fieldIndex"
                     :class="['vuetable-slot', field.dataClass]"
                   >
                     <slot :name="extractArgs(field.name)"
@@ -119,7 +107,6 @@
                 </template>
                 <template v-else>
                   <td :class="field.dataClass"
-                    :key="fieldIndex"
                     v-html="renderNormalField(field, item)"
                     @click="onCellClicked(item, field, $event)"
                     @dblclick="onCellDoubleClicked(item, field, $event)"
@@ -130,7 +117,7 @@
             </template>
           </tr>
           <template v-if="useDetailRow">
-            <transition :name="detailRowTransition" :key="itemIndex">
+            <transition :name="detailRowTransition" :key="'detail-' + itemIndex">
               <tr v-if="isVisibleDetailRow(item[trackBy])"
                 :class="[css.detailRowClass]"
                 @click="onDetailRowClick(item, $event)"
@@ -149,7 +136,7 @@
         </template>
         <template v-if="lessThanMinRows">
           <tr v-for="i in blankRows" class="blank-row" :key="i">
-            <template v-for="(field, fieldIndex) in tableFields">
+            <template v-for="(field, fieldIndex) in tableFields" :key="fieldIndex">
               <td v-if="field.visible" :key="fieldIndex">&nbsp;</td>
             </template>
           </tr>
@@ -161,11 +148,10 @@
 <table v-else :class="['vuetable', css.tableClass]"> <!-- no fixed header - regular table -->
   <thead>
     <tr>
-      <template v-for="(field, fieldIndex) in tableFields">
+      <template v-for="(field, fieldIndex) in tableFields" :key="fieldIndex">
         <template v-if="field.visible">
           <template v-if="isSpecialField(field.name)">
             <th v-if="extractName(field.name) == '__checkbox'"
-              :key="fieldIndex"
               :style="{width: field.width}"
               :class="['vuetable-th-checkbox-'+trackBy, field.titleClass]"
             >
@@ -173,33 +159,28 @@
                 :checked="checkCheckboxesState(field.name)">
             </th>
             <th v-if="extractName(field.name) == '__component'"
-              :key="fieldIndex"
               :style="{width: field.width}"
               :class="['vuetable-th-component-'+trackBy, field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
               v-html="renderTitle(field)"
               @click="orderBy(field, $event)"
             ></th>
             <th v-if="extractName(field.name) == '__slot'"
-              :key="fieldIndex"
               :style="{width: field.width}"
               :class="['vuetable-th-slot-'+extractArgs(field.name), field.titleClass, sortClass(field), {'sortable': isSortable(field)}]"
               v-html="renderTitle(field)"
               @click="orderBy(field, $event)"
             ></th>
             <th v-if="extractName(field.name) == '__sequence'"
-              :key="fieldIndex"
               :style="{width: field.width}"
               :class="['vuetable-th-sequence', field.titleClass || '', sortClass(field)]" v-html="renderTitle(field)"
             ></th>
             <th v-if="notIn(extractName(field.name), ['__sequence', '__checkbox', '__component', '__slot'])"
-              :key="fieldIndex"
               :style="{width: field.width}"
               :class="['vuetable-th-'+field.name, field.titleClass || '', sortClass(field)]" v-html="renderTitle(field)"
             ></th>
           </template>
           <template v-else>
             <th @click="orderBy(field, $event)"
-              :key="fieldIndex"
               :id="'_' + field.name"
               :style="{width: field.width}"
               :class="['vuetable-th-'+field.name, field.titleClass, sortClass(field),  {'sortable': isSortable(field)}]"
@@ -218,21 +199,18 @@
         :class="onRowClass(item, itemIndex)"
         @click="onRowClicked(item, $event)"
       >
-        <template v-for="(field, fieldIndex) in tableFields">
+        <template v-for="(field, fieldIndex) in tableFields" :key="fieldIndex">
           <template v-if="field.visible">
             <template v-if="isSpecialField(field.name)">
               <td v-if="extractName(field.name) == '__sequence'"
-                :key="fieldIndex"
                 :class="['vuetable-sequence', field.dataClass]"
                 v-html="renderSequence(itemIndex)"
               ></td>
               <td v-if="extractName(field.name) == '__handle'"
-                :key="fieldIndex"
                 :class="['vuetable-handle', field.dataClass]"
                 v-html="renderIconTag(['handle-icon', css.handleIcon])"
               ></td>
               <td v-if="extractName(field.name) == '__checkbox'"
-                :key="fieldIndex"
                 :class="['vuetable-checkboxes', field.dataClass]"
               >
                 <input type="checkbox"
@@ -240,7 +218,6 @@
                   :checked="rowSelected(item, field.name)">
               </td>
               <td v-if="extractName(field.name) === '__component'"
-                :key="fieldIndex"
                 :class="['vuetable-component', field.dataClass]"
               >
                 <component :is="extractArgs(field.name)"
@@ -248,7 +225,6 @@
                 ></component>
               </td>
               <td v-if="extractName(field.name) === '__slot'"
-                :key="fieldIndex"
                 :class="['vuetable-slot', field.dataClass]"
               >
                 <slot :name="extractArgs(field.name)"
@@ -256,9 +232,8 @@
                 ></slot>
               </td>
             </template>
-            <template v-else :key="fieldIndex">
+            <template v-else>
               <td v-if="hasCallback(field)"
-                :key="fieldIndex"
                 :class="field.dataClass"
                 v-html="callCallback(field, item)"
                 @click="onCellClicked(item, field, $event)"
@@ -277,7 +252,7 @@
         </template>
       </tr>
       <template v-if="useDetailRow">
-        <transition :name="detailRowTransition" :key="itemIndex">
+        <transition :name="detailRowTransition" :key="'detail-' + itemIndex">
           <tr v-if="isVisibleDetailRow(item[trackBy])"
             :class="[css.detailRowClass]"
             @click="onDetailRowClick(item, $event)"
@@ -296,7 +271,7 @@
     </template>
     <template v-if="lessThanMinRows">
       <tr v-for="i in blankRows" class="blank-row" :key="i">
-        <template v-for="(field, fieldIndex) in tableFields">
+        <template v-for="(field, fieldIndex) in tableFields" :key="fieldIndex">
           <td v-if="field.visible" :key="fieldIndex">&nbsp;</td>
         </template>
       </tr>
@@ -309,6 +284,24 @@
 import axios from 'axios'
 
 export default {
+  emits: [
+    'vuetable:initialized',
+    'vuetable:loading',
+    'vuetable:loaded',
+    'vuetable:pagination-data',
+    'vuetable:load-success',
+    'vuetable:load-error',
+    'vuetable:row-changed',
+    'vuetable:data-reset',
+    'vuetable:checkbox-toggled',
+    'vuetable:checkbox-toggled-all',
+    'vuetable:row-clicked',
+    'vuetable:row-dblclicked',
+    'vuetable:detail-row-clicked',
+    'vuetable:cell-clicked',
+    'vuetable:cell-dblclicked',
+    'vuetable:cell-rightclicked'
+  ],
   props: {
     fields: {
       type: Array,
@@ -426,7 +419,7 @@ export default {
       default: ''
     },
     detailRowComponent: {
-      type: String,
+      type: [String, Object],
       default: ''
     },
     detailRowTransition: {
@@ -508,7 +501,7 @@ export default {
       }
     }
   },
-  destroyed () {
+  unmounted () {
     let elem = this.$el.getElementsByClassName('vuetable-body-wrapper')[0];
     if (elem != null) {
       elem.removeEventListener('scroll', this.handleScroll);
@@ -1280,8 +1273,11 @@ export default {
       if(this.reactiveApiUrl && newVal !== oldVal)
         this.refresh()
     },
-    'data' (newVal, oldVal) {
-      this.setData(newVal)
+    'data': {
+      handler (newVal, oldVal) {
+        this.setData(newVal)
+      },
+      deep: true
     },
     'tableHeight' (newVal, oldVal) {
       this.fixHeader()
