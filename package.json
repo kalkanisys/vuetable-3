@@ -1,8 +1,8 @@
 {
-  "name": "vuetable-2",
+  "name": "vuetable-3",
   "version": "1.7.5",
-  "description": "Datatable component for Vue 2.x",
-  "main": "dist/vuetable-2.js",
+  "description": "Datatable component for Vue 3.x",
+  "main": "dist/vuetable-3.js",
   "license": "MIT",
   "author": "Rati Wannapanop <rati.wannapanop@gmail.com>",
   "repository": {

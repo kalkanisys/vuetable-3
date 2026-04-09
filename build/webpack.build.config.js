@@ -3,7 +3,7 @@ var path = require("path");
 var version = require("./../package.json").version;
 var banner =
   "/**\n" +
-  " * vuetable-2 v" +
+  " * vuetable-3 v" +
   version +
   "\n" +
   " * https://github.com/ratiw/vuetable-2\n" +
@@ -15,11 +15,11 @@ var utils = require("./utils");
 var { merge } = require("webpack-merge");
 var baseWebpackConfig = require("./webpack.base.conf");
 
-var cssFileName = "vuetable-2.css";
-var jsFileName = "vuetable-2.js";
+var cssFileName = "vuetable-3.css";
+var jsFileName = "vuetable-3.js";
 
 if (process.env.MINIFY && process.env.MINIFY === "false") {
-  jsFileName = "vuetable-2-full.js";
+  jsFileName = "vuetable-3-full.js";
 }
 
 var webpackConfig = merge(baseWebpackConfig, {

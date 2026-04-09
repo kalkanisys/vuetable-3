@@ -1,5 +1,5 @@
 /**
- * vuetable-2 v1.7.5
+ * vuetable-3 v1.7.5
  * https://github.com/ratiw/vuetable-2
  * Released under the MIT License.
  */
