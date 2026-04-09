@@ -1,7 +1,55 @@
 /**
- * vuetable-2 v1.6.0
+ * vuetable-2 v1.7.5
  * https://github.com/ratiw/vuetable-2
  * Released under the MIT License.
  */
 
-[v-cloak][_v-0c70c9de]{display:none}.vuetable th.sortable[_v-0c70c9de]:hover{color:#2185d0;cursor:pointer}.vuetable-actions[_v-0c70c9de]{width:15%;padding:12px 0;text-align:center}.vuetable-pagination[_v-0c70c9de]{background:#f9fafb!important}.vuetable-pagination-info[_v-0c70c9de]{margin-top:auto;margin-bottom:auto}.vuetable-empty-result[_v-0c70c9de]{text-align:center}
+
+[v-cloak][data-v-aaa95b90] {
+    display: none;
+}
+.vuetable th.sortable[data-v-aaa95b90]:hover {
+    color: #2185d0;
+    cursor: pointer;
+}
+.vuetable-body-wrapper[data-v-aaa95b90] {
+    position:relative;
+    overflow-y:auto;
+}
+.vuetable-head-wrapper[data-v-aaa95b90] {
+    overflow-x: hidden;
+}
+.vuetable-actions[data-v-aaa95b90] {
+    width: 15%;
+    padding: 12px 0px;
+    text-align: center;
+}
+.vuetable-pagination[data-v-aaa95b90] {
+    background: #f9fafb !important;
+}
+.vuetable-pagination-info[data-v-aaa95b90] {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.vuetable-empty-result[data-v-aaa95b90] {
+    text-align: center;
+}
+.vuetable-clip-text[data-v-aaa95b90] {
+    white-space: pre-wrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: block;
+}
+.vuetable-semantic-no-top[data-v-aaa95b90] {
+    border-top:none !important;
+    margin-top:0 !important;
+}
+.vuetable-fixed-layout[data-v-aaa95b90] {
+    table-layout: fixed;
+}
+.vuetable-gutter-col[data-v-aaa95b90] {
+    padding: 0 !important;
+    border-left: none  !important;
+    border-right: none  !important;
+}
+

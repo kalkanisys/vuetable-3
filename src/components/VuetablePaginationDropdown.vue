@@ -21,6 +21,7 @@ import PaginationMixin from './VuetablePaginationMixin.vue'
 
 export default {
   mixins: [PaginationMixin],
+  emits: ['vuetable-pagination:change-page'],
   props: {
     pageText: {
       type: String,
@@ -30,16 +31,6 @@ export default {
     }
   },
   methods: {
-    registerEvents () {
-      let self = this
-
-      this.$on('vuetable:pagination-data', (tablePagination) => {
-        self.setPaginationData(tablePagination)
-      })
-    }
-  },
-  created () {
-    this.registerEvents()
   }
 }
 </script>
